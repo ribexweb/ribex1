@@ -121,7 +121,8 @@
               console.log(data);    
             },
             success: function (data) {
-                r = data;    
+                r = data; 
+                //guardar_log(r.usuario.datos.idusuario, "usuarios", "ingreso", "",r.usuario.datos.idusuario);
             },
                 async: false
         });
@@ -153,9 +154,7 @@
                   }
                   else{
                     var resp = crearSesion($("#usuario").val(),$("#contra").val());
-                    guardar_log(resp.usuario.datos.idusuario, "usuarios", "ingreso", "",resp.usuario.datos.idusuario);
                     window.location.href = "../index.php"; //will redirect to your blog page (an ex: blog.html)
-
                   }
                   /*if (resp.usuario.datos.cambiar == "t") {
                     window.location.href = "cambio.php"; 

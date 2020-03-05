@@ -525,7 +525,7 @@ function generar_boleta_array(id, button, tipo, idedificio, showCargos) {
           "vmedidores.idasignacion", "vmedidores.cons_rut", "case when (vmedidores.asig_codigo is null) or (vmedidores.asig_codigo = '') then vmedidores.cons_nombre else vmedidores.asig_codigo end as cons_nombre",
           "coalesce(vmedidores.cons_direccion,'') as cons_direccion", "vmedidores.espa_nombre", "vmedidores.tari_nombre",
           "energialecturafinal", "energialecturainicial", "energiafechainicial", "energiafechafinal",
-          "remarcaciones.fecha::date", "precios.desde::date", "precios.hasta::date",
+          "remarcaciones.fecha::date", "precios.desde::date", "(precios.hasta - interval '1 second')::date as hasta",
           "coalesce(consumidores.rut,'') as edif_rut", "remarcaciones_asignaciones.idremarcacionasignacion",
           "vmedidores.idmedidor", "vmedidores.idmedidorfisico", "remarcaciones.ivacargos"],
         tableName: "remarcacion.remarcaciones_asignaciones left join " +
@@ -590,7 +590,6 @@ function generar_boleta_array(id, button, tipo, idedificio, showCargos) {
       ]
     },
     success: function (data) {
-      console.log(data);
       data[0].resultados.map(function (value, index) {
         datos.push({
           edificio: {
@@ -628,7 +627,6 @@ function generar_boleta_array(id, button, tipo, idedificio, showCargos) {
 
         leidas = data[1].resultados.filter(registro => (registro.idcargo != 4) && (registro.idremarcacionasignacion == value.idremarcacionasignacion));
         cont = 0;
-        console.log(leidas);
         leidas.map(function (value_leida, index_leida) {
           datos[datos.length - 1].boleta.lecturas[cont]["col4"] = "%s leida (%s):".format(value_leida.nombre, value_leida.unid_codigo);
           datos[datos.length - 1].boleta.lecturas[cont++]["col5"] = formatear_valor(value_leida.valor, 'float8', true).value;
@@ -691,7 +689,6 @@ function generar_boleta_array(id, button, tipo, idedificio, showCargos) {
         }); */
 
 
-      console.log(datos);
       data[2].resultados.map(function (value, index) {
         var registro = datos.filter(registro => registro.boleta.numero == value.idremarcacionasignacion);
         registro[0].boleta.facturados.push({
@@ -2723,6 +2720,7 @@ function guardar_log(idclave, tabla, operacion, detalle, idusuario) {
     "detalle": detalle
   });
   elementos["returnFields"].push("idlog");
+  console.log(elementos);
   $.ajax({
     url: '../php/operacion_multiple.php?log',
     dataType: 'json',
@@ -2741,9 +2739,10 @@ function guardar_log(idclave, tabla, operacion, detalle, idusuario) {
     },
     error: function (jqXhr, textStatus, errorThrown) {
       console.log(jqXhr);
-      error2({
-        msg: "error en log",
-      });
+      //console.log(jqXhr);
+      //error2({
+      //  msg: "error en log",
+     // });
     }
   });
 }

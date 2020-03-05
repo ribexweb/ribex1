@@ -47,9 +47,9 @@ $( document ).ready(function() {
                         fields:["tarifa","desde","hasta"],
                         format: "(%s) %s - %s "
                     },
-                    hide: ["idremarcacion"],
+                    hide: ["idremarcacion"], 
                     queries:[{
-                        fieldsSelect: ["idremarcacion","desde::date","hasta::date","fecha::date","nombre as tarifa"],
+                        fieldsSelect: ["idremarcacion","desde::date","(hasta-interval '1 second')::date as hasta","fecha::date","nombre as tarifa"],
                         tableName   :"remarcacion.vremarcaciones",
                         orderby:[{
                             field:"fecha",

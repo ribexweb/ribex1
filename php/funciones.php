@@ -29,7 +29,7 @@
             }
           }
           else {
-            return ["success" => 0,"mensaje" => "Problemas en la consulta (Password), consulte al administrador"];  
+            return ["success" => 0,"mensaje" => "La Contraseña del usuario es incorrecta"];  
           }
         } 
         else{

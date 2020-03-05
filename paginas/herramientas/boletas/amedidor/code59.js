@@ -106,6 +106,7 @@ $( document ).ready(function() {
 
     function loadBoletas(reporte,idmedidor,tableParams,idtabla){
         if (!(reporte.activo)){
+            console.log('aqui voy...');
             reporte.activo = true;
 /*            var botonDescarga = ($("#SelectEdificio").val()!=15)?
                                 [{nombre:"descargar",tipo:"btn-info",accion:"descargar",icono:"fa-download"}]:
@@ -124,7 +125,7 @@ $( document ).ready(function() {
                         realtablename: "boletas_medidor_automaticas",
                     };
                     d.queries=[{
-                        fieldsSelect:["idremarcacionasignacion","desde","hasta","fecha::date","extract('year' from fecha) as ano","lpad(extract('month' from fecha)::text,2,'0') as mes","case when ivacargos = false then sumavaloresfacturados.total else round(sumavaloresfacturados.total/1.19) end as total","case when ivacargos = false then sumavaloresfacturados.total*1.19 else sumavaloresfacturados.total end as totaliva"],
+                        fieldsSelect:["idremarcacionasignacion","desde::date","(hasta-interval '1 second')::date as hasta","fecha::date","extract('year' from fecha) as ano","lpad(extract('month' from fecha)::text,2,'0') as mes","case when ivacargos = false then sumavaloresfacturados.total else round(sumavaloresfacturados.total/1.19) end as total","case when ivacargos = false then sumavaloresfacturados.total*1.19 else sumavaloresfacturados.total end as totaliva"],
                         tableName   :"remarcacion.vremarcacionesasignaciones "+
                                     "left join ( select idremarcacionasignacion,sum(monto) as total " +
                                     "from remarcacion.valores_facturados group by idremarcacionasignacion" +
